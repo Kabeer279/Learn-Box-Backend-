@@ -18,27 +18,35 @@ public class UserService {
 	public void signUp(UserDto sign)
 	{
 		User user = new User();
-		user.setName(sign.getName());
+		user.setName(sign.getUsername());
 		user.setPassword(sign.getPassword());
 		
 		userrepo.save(user);
+		System.out.println("SignedIn:"+user);
 	}
 	
 	public User login(UserDto login)
 	{
 		
 		User user = new User();
-		user = userrepo.findByName(login.getName());
+		user = userrepo.findByName(login.getUsername());
+		//System.out.println(user);
 		if(user != null)
 		{		
-			return user;
+			
+			if(user.getPassword().equals(login.getPassword()) )
+			{
+				System.out.println("LoggedIn:"+user);
+				return user;
 			//return "Login Successfull";
+			}
 		}
 		else
 		{
 			return null;
 			//return "Wrong Creditionals";
 		}
+		return null;
 	}
 	
 	
