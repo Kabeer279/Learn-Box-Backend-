@@ -1,6 +1,7 @@
 package com.project.LearnBox.Model;
 
 
+import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -13,7 +14,10 @@ import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.ManyToAny;
 
+
+
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,12 +25,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 public class ClassRoom {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private String name;
+	private String classname;
 	private String description;
 	private String classcode;
 		
@@ -42,6 +47,7 @@ public class ClassRoom {
 	{
 		this.subcribedUsers.add(user);
 	}
+	
 //	private String subHeading;
 	
 	

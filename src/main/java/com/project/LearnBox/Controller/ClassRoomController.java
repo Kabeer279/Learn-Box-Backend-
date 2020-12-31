@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+import com.project.LearnBox.Mapper.ClassRoomMapper;
 import com.project.LearnBox.Model.ClassRoom;
 import com.project.LearnBox.Model.CurrentUser;
 import com.project.LearnBox.Model.User;
@@ -44,12 +44,13 @@ public class ClassRoomController {
 	ClassRepository classrepo;
 	@Autowired
 	CurrentUserRespository cuserrepo;
+	ClassRoomMapper classmapper = new ClassRoomMapper();
 	 
 	//(origins = "http://localhost:4200", allowCredentials = "true")
 	@PostMapping(path = "/createclass")
 	@CrossOrigin
 	@ResponseBody
-	public ResponseEntity<?> createClass(@RequestBody ClassRoomDto classdto , HttpServletRequest req) {
+	public ResponseEntity<?> createClass(@RequestBody ClassRoomDto classdto ) {
 		HttpHeaders headers = new HttpHeaders();
 		
 			//System.out.println(classdto);
@@ -64,24 +65,42 @@ public class ClassRoomController {
 			
 			
 			classservice.createClass(classdto , user);
-			return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Login Successfull");
+			return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Class Created Successfull");
 //			return ResponseEntity.status(OK)	                    .body("Class Created");
    
 	}
-	
+	//List<ClassRoomDto>
 	@CrossOrigin
-	@GetMapping(path = "/getallclass")
-	public ResponseEntity <List<ClassRoom>> getClassess() {
+	@GetMapping(path = "/getcreatedclassess")
+	@ResponseBody
+	public ResponseEntity <?> getCreatedClassess() {
 		
-    	    try {
-    	    		return ResponseEntity.status(OK)
-    	                    .body(classservice.getAllClass());
-    	        }
-    	    catch (Exception e)
-    	    	{				
-    	    		return (ResponseEntity<List<ClassRoom>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
-    	    				
-    	    	}
+    	   try {
+    		   return ResponseEntity.status(OK)
+	                    .body(classservice.getCreatedClassess());
+    	   }
+    	   catch(Exception e){
+    		   return ResponseEntity.status(OK)
+ 	                    .body("No Classes");
+    	   }
+    	  		   	        
+    	    
+	}
+	@CrossOrigin
+	@GetMapping(path = "/getjoinedclassess")
+	@ResponseBody
+	public ResponseEntity <?> getJoinedClassess() {
+		
+    	   try {
+    		   return ResponseEntity.status(OK)
+	                    .body(classservice.getJoinedClassess());
+    	   }
+    	   catch(Exception e){
+    		   return ResponseEntity.status(OK)
+ 	                    .body("No Classes");
+    	   }
+    	  		   	        
+    	    
 	}
 	
 	@CrossOrigin
@@ -102,9 +121,10 @@ public class ClassRoomController {
 		room.setSubUsers(user);
 		
 		classrepo.save(room);
+		ClassRoomDto dto = new ClassRoomDto();
+		dto = classmapper.mapClassToClassDto(room);		
 		
-		
-    	    	 return ResponseEntity.status(OK).body(room);
+    	return ResponseEntity.status(OK).body(dto);
     	        
     	    
 	}
