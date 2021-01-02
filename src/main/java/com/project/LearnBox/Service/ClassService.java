@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.LearnBox.Mapper.ClassRoomMapper;
 import com.project.LearnBox.Model.ClassRoom;
@@ -20,11 +21,15 @@ import com.project.LearnBox.Repository.ClassRepository;
 import com.project.LearnBox.Repository.CurrentUserRespository;
 import com.project.LearnBox.dto.ClassRoomDto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Data
+//@AllArgsConstructor
+//@Slf4j
+//@Transactional
 public class ClassService {
 
 	@Autowired
@@ -48,6 +53,7 @@ public class ClassService {
 		    classroom.setClasscode(String.format("%06d", number));
 		classrepo.save(classroom);
 		System.out.println("CreatedClass:"+classroom);
+		
 	}
 	
 	public List<ClassRoomDto> getCreatedClassess()
@@ -100,7 +106,7 @@ public class ClassService {
 		
 		for(ClassRoom clas:classess)
 		{
-			if(clas.getSubcribedUsers().contains( user))
+			if(clas.getSubcribedUsers().contains(user))
 			{
 				classessdto.add(classmapper.mapClassToClassDto(clas));
 			}
@@ -110,7 +116,24 @@ public class ClassService {
 		return classessdto;
 	}
 	
+	public ClassRoomDto getCreatedClass(Long id)
+	{
+		List<ClassRoom> classess = new ArrayList<>();
+		ClassRoomDto dto = new ClassRoomDto();
+		classrepo.findAll().forEach(classess::add);
+		for(ClassRoom clas:classess)
+		{
+			if(clas.getId()==id)
+			{
+				dto = classmapper.mapClassToClassDto(clas);
+				System.out.println(dto);
+				return dto;
+			}
+		}
+		
+			return dto;
 	
+	}
 	
 	
 	public ClassRoom joinClass(String classcode)

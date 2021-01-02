@@ -15,7 +15,7 @@ public interface ClassRepository extends JpaRepository<ClassRoom,Long> {
 	
 	
 	public ClassRoom findByClasscode(String classcode);
-		
+	
 		
 	
 
