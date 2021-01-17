@@ -1,5 +1,6 @@
 package com.project.LearnBox.Mapper;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +16,7 @@ import com.project.LearnBox.dto.CommentDto;
 
 public class CommentMapper {
 
-	@Autowired
-	ClassRepository classrepo;
+	
 	@Autowired
 	CurrentUserRespository cuserrepo;
 	
@@ -25,20 +25,11 @@ public class CommentMapper {
 	{
 		Comment com = new Comment();
 		
+		
 		com.setId(dto.getId());
 		com.setCreateddate(dto.getCreateddate());
 		com.setText(dto.getText());
-		
-		List<CurrentUser> cuser = new ArrayList<>();
-		cuser = (List<CurrentUser>) cuserrepo.findAll(); //to get the current user;
-		
-		User user = new User();
-		user.setId(cuser.get(0).getId());
-		user.setName(cuser.get(0).getName());
-		user.setPassword(cuser.get(0).getPassword());
-		
-		com.setUser(user);
-		com.setClassroom(classrepo.findById(dto.getClassId()).orElse(null));
+	
 		
 		return com;
 	}
@@ -50,7 +41,7 @@ public class CommentMapper {
 		dto.setId(com.getId());
 		dto.setCreateddate(com.getCreateddate());
 		dto.setText(com.getText());
-		
+		dto.setUsername("check");
 		return dto;
 	}
 }

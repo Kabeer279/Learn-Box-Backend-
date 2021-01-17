@@ -48,6 +48,8 @@ public class ClassRoom {
 		this.subcribedUsers.add(user);
 	}
 	
+//	@OneToMany
+//	private List<Comment> comments ;
 //	private String subHeading;
 	
 	

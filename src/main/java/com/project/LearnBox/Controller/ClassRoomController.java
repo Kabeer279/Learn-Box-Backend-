@@ -100,8 +100,7 @@ public class ClassRoomController {
     		   return ResponseEntity.status(OK)
  	                    .body("No Classes");
     	   }
-    	  		   	        
-    	    
+        
 	}
 	
 	@CrossOrigin
