@@ -35,7 +35,7 @@ KS AHAMED KABEER
 ahamedkabeer279@gmail.com
 
 ## Acknowledgements
-* Programming with C++ : Sumitha Arora
+* Coursera
 
 
 
