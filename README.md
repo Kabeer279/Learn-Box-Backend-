@@ -1,7 +1,7 @@
-# LearnBox (LMS)- A Clone of Google Classroom
+# LearnBox (LMS)
 
 ## About The Project
-This is a web application which is a similar clone of the Google Classroom application..
+
 Learn-Box helps the students and teachers to communicate with each other, discuss
 and share notes..
 ### Built With
