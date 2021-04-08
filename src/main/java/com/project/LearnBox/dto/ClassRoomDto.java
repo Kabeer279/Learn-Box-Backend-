@@ -15,5 +15,6 @@ public class ClassRoomDto {
 	private String classname;
 	private String description;
 	private String classcode;
+	private String imgurl;
 	//private User user;
 }

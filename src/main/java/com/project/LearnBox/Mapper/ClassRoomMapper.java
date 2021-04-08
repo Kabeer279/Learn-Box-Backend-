@@ -18,7 +18,7 @@ public class ClassRoomMapper {
 		ClassRoom clas = new ClassRoom();
 		clas.setClassname(classroomdto.getClassname());
 		clas.setDescription(classroomdto.getDescription());
-		
+		clas.setImgurl(classroomdto.getImgurl());
 		return clas;
 	}
 	
@@ -30,7 +30,7 @@ public class ClassRoomMapper {
 		dto.setClassname(classroom.getClassname());
 		dto.setDescription(classroom.getDescription());
 		dto.setClasscode(classroom.getClasscode());
-		
+		dto.setImgurl(classroom.getImgurl());
 		
 		return dto;
 	}

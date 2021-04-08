@@ -41,16 +41,17 @@ public class ClassService {
 	
 	public void createClass(ClassRoomDto classroomdto,User user) {
 		
-		classroomdto.setClasscode("asasd");
-		classroomdto.setId((long) 123);
-		//System.out.println(classroomdto);
+				//System.out.println(classroomdto);
 		
 		//System.out.println(classmapper.mapClassDtoToClass(classroomdto));
 		ClassRoom classroom = classmapper.mapClassDtoToClass(classroomdto);
 		classroom.setOwner(user);
+			String[] urls= {"Biology","cse","English","EEE","Electronics"};
 			Random rnd = new Random();
+			int imgno = rnd.nextInt(5);
 			int number = rnd.nextInt(999999);
 		    classroom.setClasscode(String.format("%06d", number));
+		    classroom.setImgurl(urls[imgno]);
 		classrepo.save(classroom);
 		System.out.println("CreatedClass:"+classroom);
 		
