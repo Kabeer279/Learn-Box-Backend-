@@ -49,7 +49,7 @@ public class CommentService {
 		System.out.println(com + "service");
 		
 		CommentDto comdto = commapper.commentToDto(comrepo.save(com));
-		comdto.setUsername("check");
+		comdto.setUsername(cuser.get(0).getName());
 		System.out.println(comdto);
 		return comdto;
 		
@@ -61,7 +61,7 @@ public class CommentService {
 		ClassRoom classroom = classrepo.findById(classid).get();
 		List<Comment> comments = comrepo.findByClassroom(classroom);
 		
-		
+		System.out.println(comments);
 		return comrepo.findByClassroom(classroom)
                 .stream()
                 .map(commapper::commentToDto).collect(toList());

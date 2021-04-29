@@ -41,7 +41,7 @@ public class CommentMapper {
 		dto.setId(com.getId());
 		dto.setCreateddate(com.getCreateddate());
 		dto.setText(com.getText());
-		dto.setUsername("check");
+		dto.setUsername(com.getUser().getName());
 		return dto;
 	}
 }

@@ -26,6 +26,7 @@ public class MembersController {
 	@CrossOrigin
 	@GetMapping(path = "members/owner/{classId}")
 	@ResponseBody
+	
 	public ResponseEntity <?> classOwner(@PathVariable String classId) {
 		
     	   try {
