@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.project.LearnBox.Mapper.CommentMapper;
@@ -16,6 +18,7 @@ import com.project.LearnBox.Model.User;
 import com.project.LearnBox.Repository.ClassRepository;
 import com.project.LearnBox.Repository.CommentRepository;
 import com.project.LearnBox.Repository.CurrentUserRespository;
+import com.project.LearnBox.Repository.UserRepository;
 import com.project.LearnBox.dto.CommentDto;
 
 @Service
@@ -27,6 +30,8 @@ public class CommentService {
 	CurrentUserRespository cuserrepo;
 	@Autowired
 	ClassRepository classrepo;
+	@Autowired
+	UserRepository userrepo;
 	
 	CommentMapper commapper = new CommentMapper();
 	
@@ -38,10 +43,15 @@ public class CommentService {
 		List<CurrentUser> cuser = new ArrayList<>();
 		cuser = (List<CurrentUser>) cuserrepo.findAll(); //to get the current user;
 		
-		User user = new User();
-		user.setId(cuser.get(0).getId());
-		user.setName(cuser.get(0).getName());
-		user.setPassword(cuser.get(0).getPassword());
+		Object princ = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String curUser = ((UserDetails)princ).getUsername();
+		
+//		User user = new User();
+//		user.setId(cuser.get(0).getId());
+//		user.setName(cuser.get(0).getName());
+//		user.setPassword(cuser.get(0).getPassword());
+		
+		User user = userrepo.findByName(curUser);
 		com = commapper.dtoToComment(dto);
 		com.setUser(user);
 		com.setClassroom(classrepo.findById(dto.getClassId()).get());
@@ -49,7 +59,7 @@ public class CommentService {
 		System.out.println(com + "service");
 		
 		CommentDto comdto = commapper.commentToDto(comrepo.save(com));
-		comdto.setUsername(cuser.get(0).getName());
+		comdto.setUsername(curUser);
 		System.out.println(comdto);
 		return comdto;
 		

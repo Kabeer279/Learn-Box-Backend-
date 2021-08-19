@@ -25,7 +25,7 @@ public class MembersService {
 		{
 			if(clas.getId().equals(Long.parseLong(classId)))
 			{
-				return clas.getOwner().getName();
+				return clas.getOwner();
 			}
 		}
 		System.out.println(classId+" sadsad");
@@ -45,9 +45,9 @@ public class MembersService {
 		{
 			if(clas.getId().equals(Long.parseLong(classId)))
 			{
-				for(int i=0;i<clas.getSubcribedUsers().size();i++)
+				for(int i=0;i<clas.getSubscribedUsers().size();i++)
 				{
-					subscribedUsers.add( clas.getSubcribedUsers().get(i).getName());
+					subscribedUsers.add( clas.getSubscribedUsers().get(i).getName());
 				}
 				return subscribedUsers;
 			}

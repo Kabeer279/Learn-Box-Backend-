@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.project.LearnBox.Model.Comment;
 import com.project.LearnBox.Model.CurrentUser;
@@ -37,7 +39,10 @@ public class CommentMapper {
 	public CommentDto commentToDto(Comment com)
 	{
 		CommentDto dto = new CommentDto();
-				
+		
+//		Object princ = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		String curUser = ((UserDetails)princ).getUsername();
+		
 		dto.setId(com.getId());
 		dto.setCreateddate(com.getCreateddate());
 		dto.setText(com.getText());

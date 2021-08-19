@@ -22,6 +22,7 @@ public class UserService {
 		user.setPassword(sign.getPassword());
 		
 		userrepo.save(user);
+		//System.out.println("Count="+userrepo.findAll());
 		System.out.println("SignedIn:"+user);
 	}
 	

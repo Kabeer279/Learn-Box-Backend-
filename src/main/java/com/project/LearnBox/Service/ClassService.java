@@ -10,6 +10,8 @@ import java.util.Random;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import com.project.LearnBox.Model.CurrentUser;
 import com.project.LearnBox.Model.User;
 import com.project.LearnBox.Repository.ClassRepository;
 import com.project.LearnBox.Repository.CurrentUserRespository;
+import com.project.LearnBox.Repository.UserRepository;
 import com.project.LearnBox.dto.ClassRoomDto;
 
 import lombok.AllArgsConstructor;
@@ -36,16 +39,19 @@ public class ClassService {
 	ClassRepository classrepo;
 	@Autowired
 	CurrentUserRespository cuserrepo;
+	@Autowired
+	UserRepository userrepo;
 	
 	ClassRoomMapper classmapper = new ClassRoomMapper();
 	
-	public void createClass(ClassRoomDto classroomdto,User user) {
+	public void createClass(ClassRoomDto classroomdto,String curUser) {
 		
 				//System.out.println(classroomdto);
 		
 		//System.out.println(classmapper.mapClassDtoToClass(classroomdto));
 		ClassRoom classroom = classmapper.mapClassDtoToClass(classroomdto);
-		classroom.setOwner(user);
+		//classroom.setOwner(user);
+		classroom.setOwner(curUser);
 			String[] urls= {"Biology","cse","English","EEE","Electronics"};
 			Random rnd = new Random();
 			int imgno = rnd.nextInt(5);
@@ -58,32 +64,34 @@ public class ClassService {
 	}
 	
 	public List<ClassRoomDto> getCreatedClassess()
-	{
+	{		
 		List<ClassRoom> classess = new ArrayList<>();
 		List<ClassRoomDto> classessdto = new ArrayList<>();
 		
+		System.out.println("before");
 		
-		List<CurrentUser> cuser = new ArrayList<>();
-		cuser = (List<CurrentUser>) cuserrepo.findAll(); //to get the current user;
-		
-		User user = new User();
-		user.setId(cuser.get(0).getId());
-		user.setName(cuser.get(0).getName());
-		user.setPassword(cuser.get(0).getPassword());
-		
-		
+		//List<CurrentUser> cuser = new ArrayList<>();
+		Object princ = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String curUser = ((UserDetails)princ).getUsername();
+		//cuser = (List<CurrentUser>) cuserrepo.findAll(); //to get the current user;
+			
+		//System.out.println(princ);
+//		User user = new User();
+//		user.setId(cuser.get(0).getId());
+//		user.setName(cuser.get(0).getName());
+//		user.setPassword(cuser.get(0).getPassword());
+				
 		classrepo.findAll()
 				.forEach(classess::add);
 		
 		for(ClassRoom clas:classess)
 		{
-			if(clas.getOwner().getName().equals(user.getName()))
+			if(clas.getOwner().equals(curUser))
 			{
 				classessdto.add(classmapper.mapClassToClassDto(clas));
 			}
 		}
-		
-		System.out.println(classessdto);
+		System.out.println(classessdto+ "aaasdasd");
 		return classessdto;
 	}
 	
@@ -93,21 +101,24 @@ public class ClassService {
 		List<ClassRoom> classess = new ArrayList<>();
 		List<ClassRoomDto> classessdto = new ArrayList<>();
 		
-		List<CurrentUser> cuser = new ArrayList<>();
-		cuser = (List<CurrentUser>) cuserrepo.findAll(); //to get the current user;
+//		List<CurrentUser> cuser = new ArrayList<>();
+//		cuser = (List<CurrentUser>) cuserrepo.findAll(); //to get the current user;
+//		
 		
-		User user = new User();
-		user.setId(cuser.get(0).getId());
-		user.setName(cuser.get(0).getName());
-		user.setPassword(cuser.get(0).getPassword());
+//		user.setId(cuser.get(0).getId());
+//		user.setName(cuser.get(0).getName());
+//		user.setPassword(cuser.get(0).getPassword());
 		
+		Object princ = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String curUser = ((UserDetails)princ).getUsername();
 		
+		User user = userrepo.findByName(curUser);
 		classrepo.findAll()
 				.forEach(classess::add);
 		
 		for(ClassRoom clas:classess)
 		{
-			if(clas.getSubcribedUsers().contains(user))
+			if(clas.getSubscribedUsers().contains(user))
 			{
 				classessdto.add(classmapper.mapClassToClassDto(clas));
 			}

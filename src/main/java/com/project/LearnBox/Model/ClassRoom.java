@@ -35,18 +35,17 @@ public class ClassRoom {
 	private String description;
 	private String classcode;
 	private String imgurl;
-		
 	
-	@OneToOne
-	private User owner;
+	
+	private String owner;
 	
 	
 //	@ManyToOne
 	@OneToMany
-	private List<User>subcribedUsers;
+	private List<User>subscribedUsers;
 	public void setSubUsers(User user)
 	{
-		this.subcribedUsers.add(user);
+		this.subscribedUsers.add(user);
 	}
 	
 //	@OneToMany
