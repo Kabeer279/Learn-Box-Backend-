@@ -23,6 +23,9 @@ and share notes..
 
 ### Screenshots
 ![dashboard](images/dashboard.png)
+![Stream](images/Stream.png)
+![Members](images/Members.png)
+![Classwor](images/Classwork.png)
 
 
 
